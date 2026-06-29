@@ -1,7 +1,7 @@
-import express from 'express'
+import express, { Express } from 'express'
 import { renderDocumentToPDF } from './printer'
 
-const app = express()
+const app: Express = express()
 const port = process.env.COMPILER_PORT || 8081
 
 app.use(express.json({ limit: '50mb' }))

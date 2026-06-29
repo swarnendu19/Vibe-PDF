@@ -1,9 +1,9 @@
-import express from 'express'
+import express, { Express } from 'express'
 import { z } from 'zod'
 import { initDb, saveJob, getJob, getJobByDocumentId, JobRecord } from './database/db'
 import { runPipeline } from './agents/pipelineRunner'
 
-const app = express()
+const app: Express = express()
 const port = process.env.ORCHESTRATOR_PORT || 8080
 
 app.use(express.json())

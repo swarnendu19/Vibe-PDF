@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  # ── DATABASE SERVICE ────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: vibe-pdf-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: publishengine
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_secure_pass_change_me
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d publishengine"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── COMPILER SERVICE (PDF GENERATOR) ────────────────────────────────────────
+  compiler:
+    build:
+      context: .
+      dockerfile: services/compiler/Dockerfile
+    container_name: vibe-pdf-compiler
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      COMPILER_PORT: 8081
+      PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium-browser
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+    expose:
+      - "8081"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8081/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── ORCHESTRATOR SERVICE (AI GENERATION COORDINATOR) ────────────────────────
+  orchestrator:
+    build:
+      context: .
+      dockerfile: services/orchestrator/Dockerfile
+    container_name: vibe-pdf-orchestrator
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      ORCHESTRATOR_PORT: 8080
+      DATABASE_URL: postgresql://postgres:postgres_secure_pass_change_me@db:5432/publishengine
+      GOOGLE_GENERATIVE_AI_API_KEY: ${GOOGLE_GENERATIVE_AI_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── WEB APPLICATION (NEXT.JS FRONTEND + GATEWAY) ───────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: vibe-pdf-web
+    restart: unless-stopped
+    depends_on:
+      - orchestrator
+      - compiler
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      ORCHESTRATOR_URL: http://orchestrator:8080
+      COMPILER_URL: http://compiler:8081
+      GOOGLE_GENERATIVE_AI_API_KEY: ${GOOGLE_GENERATIVE_AI_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      # Public URL of the app for auth and asset generation
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local

@@ -34,11 +34,11 @@ async function findChromePath(): Promise<string | undefined> {
 
 export async function renderDocumentToPDF(doc: DocumentAST): Promise<Buffer> {
   const puppeteer = await import('puppeteer-core')
-  const executablePath = await findChromePath()
+  const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || await findChromePath()
 
   if (!executablePath) {
     throw new Error(
-      'Chrome/Chromium not found. Please install Google Chrome to enable PDF export.',
+      'Chrome/Chromium not found. Please install Google Chrome or set PUPPETEER_EXECUTABLE_PATH to enable PDF export.',
     )
   }
 

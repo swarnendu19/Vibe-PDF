@@ -26,7 +26,7 @@ const STAGE_WEIGHTS: Record<string, number> = {
   EXPORTING: 7,
 }
 
-function progressAt(stage: string, fraction = 1): number {
+export function progressAt(stage: string, fraction = 1): number {
   const stages = Object.keys(STAGE_WEIGHTS)
   const idx = stages.indexOf(stage)
   if (idx === -1) return 0
@@ -162,7 +162,7 @@ export async function runPipeline(
 // PARSE DOCUMENT AST FROM WRITER OUTPUT
 // ─────────────────────────────────────────────────────────────────────────────
 
-function parseDocumentAST(rawText: string, job: JobRecord): DocumentAST {
+export function parseDocumentAST(rawText: string, job: JobRecord): DocumentAST {
   const jsonMatch = rawText.match(/```json\s*([\s\S]*?)```/) ??
     rawText.match(/```\s*([\s\S]*?)```/) ??
     [null, rawText]
@@ -203,7 +203,7 @@ function parseDocumentAST(rawText: string, job: JobRecord): DocumentAST {
   return synthesizeDocumentFromText(rawText, job, themeId, themePreset)
 }
 
-function synthesizeDocumentFromText(
+export function synthesizeDocumentFromText(
   text: string,
   job: JobRecord,
   themeId: ThemeId,
@@ -243,13 +243,13 @@ function synthesizeDocumentFromText(
   }
 }
 
-interface Section {
+export interface Section {
   title: string
   body: string[]
   hasData: boolean
 }
 
-function extractSections(text: string, pageBudget: number): Section[] {
+export function extractSections(text: string, pageBudget: number): Section[] {
   const MAX = Math.max(pageBudget - 2, 1)
   const lines = text.split('\n')
   const sections: Section[] = []
@@ -274,7 +274,7 @@ function extractSections(text: string, pageBudget: number): Section[] {
   return sections.slice(0, MAX)
 }
 
-function buildCoverPage(title: string, job: JobRecord): PageNode {
+export function buildCoverPage(title: string, job: JobRecord): PageNode {
   return {
     id: crypto.randomUUID(),
     pageNumber: 1,
@@ -305,7 +305,7 @@ function buildCoverPage(title: string, job: JobRecord): PageNode {
   }
 }
 
-function buildTOCPage(sections: Section[]): PageNode {
+export function buildTOCPage(sections: Section[]): PageNode {
   return {
     id: crypto.randomUUID(),
     pageNumber: 2,
@@ -325,7 +325,7 @@ function buildTOCPage(sections: Section[]): PageNode {
   }
 }
 
-function buildContentPage(section: Section, pageNumber: number): PageNode {
+export function buildContentPage(section: Section, pageNumber: number): PageNode {
   const elements: PageNode['elements'] = [
     {
       id: crypto.randomUUID(),
@@ -401,7 +401,7 @@ function generateFallbackSVG(): string {
   </svg>`
 }
 
-function applyLayoutVariants(doc: DocumentAST): DocumentAST {
+export function applyLayoutVariants(doc: DocumentAST): DocumentAST {
   const pages = doc.pages.map((page, i) => {
     if (i === 0) return { ...page, layoutVariant: 'cover' as const }
     if (i === 1) return { ...page, layoutVariant: 'table_of_contents' as const }
@@ -423,7 +423,7 @@ function applyLayoutVariants(doc: DocumentAST): DocumentAST {
   return { ...doc, pages }
 }
 
-function runQualityGate(doc: DocumentAST): number {
+export function runQualityGate(doc: DocumentAST): number {
   let score = 100
 
   if (doc.pages.length < 2) score -= 30

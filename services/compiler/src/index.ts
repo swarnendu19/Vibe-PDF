@@ -29,6 +29,11 @@ app.post('/compile', async (req, res) => {
   }
 })
 
-app.listen(port, () => {
-  console.log(`[compiler] PDF compilation service listening on port ${port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`[compiler] PDF compilation service listening on port ${port}`)
+  })
+}
+
+export { app }
+

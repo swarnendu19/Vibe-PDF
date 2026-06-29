@@ -64,7 +64,7 @@ export async function renderDocumentToPDF(doc: DocumentAST): Promise<Buffer> {
   }
 }
 
-function buildDocumentHTML(doc: DocumentAST): string {
+export function buildDocumentHTML(doc: DocumentAST): string {
   const theme = THEME_PRESETS[doc.theme.id]
   const accentHSL = `hsl(${theme.accentColor})`
 
@@ -264,7 +264,7 @@ ${pagesHTML}
 </html>`
 }
 
-function renderPage(page: PageNode, doc: DocumentAST): string {
+export function renderPage(page: PageNode, doc: DocumentAST): string {
   const layoutClass = `layout-${page.layoutVariant.replace(/_/g, '-')}`
   const elementsHTML = page.elements.map((el) => renderElement(el)).join('\n')
   const year = new Date().getFullYear()
@@ -292,7 +292,7 @@ function renderPage(page: PageNode, doc: DocumentAST): string {
   return `<div class="page ${layoutClass}">${pageContent}</div>`
 }
 
-function renderCoverPage(page: PageNode, doc: DocumentAST): string {
+export function renderCoverPage(page: PageNode, doc: DocumentAST): string {
   const titleEl = page.elements.find((e) => e.type === 'heading')
   const subtitleEl = page.elements.find(
     (e) => e.type === 'paragraph' && e.content.emphasis === 'lead',
@@ -325,7 +325,7 @@ function renderCoverPage(page: PageNode, doc: DocumentAST): string {
   `
 }
 
-function renderTOCPage(doc: DocumentAST): string {
+export function renderTOCPage(doc: DocumentAST): string {
   const contentPages = doc.pages.slice(2)
   const items = contentPages.map((p) => {
     const headingEl = p.elements.find((e) => e.type === 'heading')
@@ -348,7 +348,7 @@ function renderTOCPage(doc: DocumentAST): string {
   return `<h1>Table of Contents</h1>${itemsHTML}`
 }
 
-function renderElement(el: PageNode['elements'][number]): string {
+export function renderElement(el: PageNode['elements'][number]): string {
   switch (el.type) {
     case 'heading': {
       const tag = `h${el.content.level}` as 'h1' | 'h2' | 'h3'
@@ -445,7 +445,7 @@ function renderElement(el: PageNode['elements'][number]): string {
   }
 }
 
-function esc(str: string): string {
+export function esc(str: string): string {
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -453,7 +453,7 @@ function esc(str: string): string {
     .replace(/"/g, '&quot;')
 }
 
-function generateFallbackSVG(): string {
+export function generateFallbackSVG(): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" fill="none" style="width:100%;height:100%">
     <rect width="400" height="225" fill="currentColor" fill-opacity="0.04"/>
     <circle cx="200" cy="112" r="56" stroke="currentColor" stroke-opacity="0.15" stroke-width="1.5"/>

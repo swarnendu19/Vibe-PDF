@@ -332,8 +332,13 @@ Page budget for job: ${job.pageBudget} pages`,
 // STARTUP
 // ─────────────────────────────────────────────────────────────────────────────
 
-initDb().then(() => {
-  app.listen(port, () => {
-    console.log(`[orchestrator] Orchestrator service listening on port ${port}`)
+if (process.env.NODE_ENV !== 'test') {
+  initDb().then(() => {
+    app.listen(port, () => {
+      console.log(`[orchestrator] Orchestrator service listening on port ${port}`)
+    })
   })
-})
+}
+
+export { app }
+

@@ -1,0 +1,312 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   GOOGLE FONTS IMPORT
+   Loaded via next/font in layout.tsx for performance — this is a fallback
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKEN: NORDIC CRISP THEME (default / light)
+   Source: .agent/COLOR_SYSTEM.md
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme='nordic_crisp'] {
+  /* Backgrounds */
+  --bg-primary: 210 20% 98%;
+  --bg-secondary: 210 16% 93%;
+  --surface-elevated: 0 0% 100%;
+  --surface-overlay: 210 20% 96%;
+
+  /* Text */
+  --text-primary: 210 24% 12%;
+  --text-secondary: 210 16% 28%;
+  --text-muted: 210 12% 46%;
+  --text-inverse: 0 0% 100%;
+
+  /* Accent */
+  --accent-primary: 215 90% 52%;
+  --accent-hover: 215 90% 44%;
+  --accent-subtle: 215 90% 96%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Borders */
+  --border-thin: 210 14% 85%;
+  --border-strong: 210 14% 72%;
+
+  /* Status */
+  --alert-success: 142 71% 45%;
+  --alert-warning: 38 92% 50%;
+  --alert-danger: 0 84% 60%;
+  --alert-info: 215 90% 52%;
+
+  /* Shadow */
+  --shadow-color: 210 24% 12%;
+
+  /* Page canvas */
+  --canvas-bg: 210 14% 85%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WARM EDITORIAL THEME
+   ───────────────────────────────────────────────────────────────────────────── */
+
+[data-theme='warm_editorial'] {
+  --bg-primary: 36 33% 97%;
+  --bg-secondary: 36 25% 92%;
+  --surface-elevated: 0 0% 100%;
+  --surface-overlay: 36 33% 95%;
+
+  --text-primary: 24 30% 12%;
+  --text-secondary: 24 20% 30%;
+  --text-muted: 24 12% 48%;
+  --text-inverse: 0 0% 100%;
+
+  --accent-primary: 25 80% 48%;
+  --accent-hover: 25 80% 40%;
+  --accent-subtle: 25 80% 96%;
+  --accent-foreground: 0 0% 100%;
+
+  --border-thin: 36 18% 84%;
+  --border-strong: 36 18% 70%;
+  --shadow-color: 24 30% 12%;
+  --canvas-bg: 36 18% 84%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SLEEK DARK THEME
+   ───────────────────────────────────────────────────────────────────────────── */
+
+[data-theme='sleek_dark'] {
+  --bg-primary: 240 10% 8%;
+  --bg-secondary: 240 8% 12%;
+  --surface-elevated: 240 8% 16%;
+  --surface-overlay: 240 8% 14%;
+
+  --text-primary: 240 8% 95%;
+  --text-secondary: 240 6% 75%;
+  --text-muted: 240 4% 55%;
+  --text-inverse: 240 10% 8%;
+
+  --accent-primary: 263 85% 68%;
+  --accent-hover: 263 85% 60%;
+  --accent-subtle: 263 85% 14%;
+  --accent-foreground: 0 0% 100%;
+
+  --border-thin: 240 6% 22%;
+  --border-strong: 240 6% 32%;
+  --shadow-color: 0 0% 0%;
+  --canvas-bg: 240 10% 5%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CORPORATE NAVY THEME
+   ───────────────────────────────────────────────────────────────────────────── */
+
+[data-theme='corporate_navy'] {
+  --bg-primary: 220 30% 98%;
+  --bg-secondary: 220 22% 94%;
+  --surface-elevated: 0 0% 100%;
+  --surface-overlay: 220 22% 96%;
+
+  --text-primary: 222 60% 12%;
+  --text-secondary: 222 40% 28%;
+  --text-muted: 222 20% 46%;
+  --text-inverse: 0 0% 100%;
+
+  --accent-primary: 222 72% 32%;
+  --accent-hover: 222 72% 24%;
+  --accent-subtle: 222 72% 95%;
+  --accent-foreground: 0 0% 100%;
+
+  --border-thin: 220 16% 86%;
+  --border-strong: 220 16% 72%;
+  --shadow-color: 222 60% 12%;
+  --canvas-bg: 220 16% 86%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MONOCHROME THEME
+   ───────────────────────────────────────────────────────────────────────────── */
+
+[data-theme='monochrome'] {
+  --bg-primary: 0 0% 98%;
+  --bg-secondary: 0 0% 93%;
+  --surface-elevated: 0 0% 100%;
+  --surface-overlay: 0 0% 95%;
+
+  --text-primary: 0 0% 8%;
+  --text-secondary: 0 0% 28%;
+  --text-muted: 0 0% 48%;
+  --text-inverse: 0 0% 100%;
+
+  --accent-primary: 0 0% 10%;
+  --accent-hover: 0 0% 4%;
+  --accent-subtle: 0 0% 95%;
+  --accent-foreground: 0 0% 100%;
+
+  --border-thin: 0 0% 84%;
+  --border-strong: 0 0% 72%;
+  --shadow-color: 0 0% 0%;
+  --canvas-bg: 0 0% 84%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TYPOGRAPHY TOKENS
+   Source: .agent/TYPOGRAPHY.md
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Font families (overridden by next/font CSS vars) */
+  --font-heading: 'Outfit', system-ui, sans-serif;
+  --font-body: 'Lora', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Grid */
+  --baseline: 4pt;
+  --grid-columns: 12;
+  --gutter: 12pt;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESET & BASE STYLES
+   ───────────────────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: hsl(var(--bg-primary));
+  color: hsl(var(--text-primary));
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  min-height: 100dvh;
+  transition:
+    background-color 0.3s ease,
+    color 0.2s ease;
+}
+
+/* Selection */
+::selection {
+  background-color: hsl(var(--accent-primary) / 0.2);
+  color: hsl(var(--text-primary));
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid hsl(var(--accent-primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar (Webkit) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border-strong));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--text-muted));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   COMPONENT LAYER UTILITIES
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Prose typography for generated PDF content previews */
+  .prose-pdf {
+    color: hsl(var(--text-primary));
+    font-family: var(--font-body);
+    font-size: 10pt;
+    line-height: 16pt;
+  }
+
+  .prose-pdf h1 {
+    font-family: var(--font-heading);
+    font-size: 32pt;
+    line-height: 40pt;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-bottom: 18pt;
+    break-after: avoid;
+  }
+
+  .prose-pdf h2 {
+    font-family: var(--font-heading);
+    font-size: 20pt;
+    line-height: 28pt;
+    font-weight: 500;
+    margin-top: 24pt;
+    margin-bottom: 12pt;
+    break-after: avoid;
+  }
+
+  .prose-pdf h3 {
+    font-family: var(--font-heading);
+    font-size: 14pt;
+    line-height: 20pt;
+    font-weight: 500;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+    break-after: avoid;
+  }
+
+  .prose-pdf p {
+    margin-bottom: 12pt;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Shimmer loading skeleton */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--bg-secondary)) 25%,
+      hsl(var(--surface-elevated)) 50%,
+      hsl(var(--bg-secondary)) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Glass morphism surface */
+  .glass {
+    background: hsl(var(--surface-elevated) / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border-thin) / 0.6);
+  }
+
+  /* Page card shadow */
+  .page-shadow {
+    box-shadow:
+      0 0 0 1px hsl(var(--border-thin)),
+      0 4px 32px 0 hsl(var(--shadow-color) / 0.12);
+  }
+}
